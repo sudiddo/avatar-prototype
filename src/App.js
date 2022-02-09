@@ -4,22 +4,34 @@ import useDeviceDetect from "./useDeviceDetect";
 
 function App() {
   const { isMobile } = useDeviceDetect();
-  const [head, setHead] = useState("/Head/Bob.png");
-  const [face, setFace] = useState("/Face/MM.png");
-  const [body, setBody] = useState("/Body/Hoodie.png");
+  const [head, setHead] = useState("./avatar-prototype/Head/Bob.png");
+  const [face, setFace] = useState("./avatar-prototype/Face/MM.png");
+  const [body, setBody] = useState("./avatar-prototype/Body/Hoodie.png");
 
   const sections = [
     {
       name: "Head",
-      content: ["/Head/Baldo.png", "/Head/Bob.png", "/Head/Kritink.png"],
+      content: [
+        "./avatar-prototype/Head/Baldo.png",
+        "./avatar-prototype/Head/Bob.png",
+        "./avatar-prototype/Head/Kritink.png",
+      ],
     },
     {
       name: "Face",
-      content: ["/Face/MM.png", "/Face/O.png", "/Face/Ohno.png"],
+      content: [
+        "./avatar-prototype/Face/MM.png",
+        "./avatar-prototype/Face/O.png",
+        "./avatar-prototype/Face/Ohno.png",
+      ],
     },
     {
       name: "Body",
-      content: ["/Body/Dilan.png", "/Body/Hoodie.png", "/Body/Shirt.png"],
+      content: [
+        "./avatar-prototype/Body/Dilan.png",
+        "./avatar-prototype/Body/Hoodie.png",
+        "./avatar-prototype/Body/Shirt.png",
+      ],
     },
   ];
 
@@ -51,7 +63,11 @@ function App() {
       </h1>
       <div className="absolute top-20 text-md font-semibold flex flex-row items-center justify-center text-[#E3BEC6] border-2 bg-[#1572A1] px-3 py-1 rounded-lg">
         Art by
-        <img src="/reyner.gif" alt="reyner" className="h-7 ml-2" />
+        <img
+          src="./avatar-prototype/reyner.gif"
+          alt="reyner"
+          className="h-7 ml-2"
+        />
       </div>
 
       <div className="h-[500px] w-[800px] border-4 border-[#1572A1] rounded-md flex bg-[#E3BEC6] mt-16">
@@ -81,7 +97,7 @@ function App() {
         </div>
         <div className="relative w-[450px] flex flex-col justify-center items-center">
           <img
-            src="/Background/Putih.png"
+            src="./avatar-prototype/Background/Putih.png"
             alt="background"
             className="h-full w-[450px] object-cover absolute z-0"
           />

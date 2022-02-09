@@ -20,7 +20,7 @@ function App() {
     {
       name: "Face",
       content: [
-        process.env.PUBLIC_URL + "/Face/MM.png",
+        process.env.PUBLIC_URL + "/Face/Mm.png",
         process.env.PUBLIC_URL + "/Face/O.png",
         process.env.PUBLIC_URL + "/Face/Ohno.png",
       ],

@@ -108,18 +108,18 @@ function App() {
       </div>
 
       <div className="h-[500px] w-[800px] border-4 border-[#1572A1] rounded-md flex bg-[#E3BEC6] mt-16">
-        <div className="flex flex-col w-[350px] overflow-scroll pt-5">
+        <div className="flex flex-col w-[350px] no-scrollbar overflow-scroll pt-5 border-r-4 border-[#1572A1]">
           {sections.map((section, index) => (
             <div key={index}>
               <h2 className="ml-5 mb-5 text-[#1572A1] font-semibold text-lg">
                 {section.name}
               </h2>
-              <div className=" flex flex-row overflow-x-auto snap-x snap-mandatory pl-5">
+              <div className="no-scrollbar flex flex-row overflow-x-auto snap-x snap-mandatory pl-5 ">
                 {section.content.map((item, index) => (
                   <img
-                    className={`snap-center h-32 w-32 object-contain mr-10 mb-5 border-2 rounded-md bg-white ${
+                    className={`snap-center h-32 w-32 object-contain mr-2 mb-5 border-4 rounded-md bg-white ${
                       head === item || body === item || face === item
-                        ? "border-[#1572A1]"
+                        ? "border-red-500"
                         : "border-black"
                     } cursor-pointer`}
                     onClick={() => selectContent(section.name, item)}

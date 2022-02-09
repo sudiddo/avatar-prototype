@@ -4,33 +4,33 @@ import useDeviceDetect from "./useDeviceDetect";
 
 function App() {
   const { isMobile } = useDeviceDetect();
-  const [head, setHead] = useState("./avatar-prototype/Head/Bob.png");
-  const [face, setFace] = useState("./avatar-prototype/Face/MM.png");
-  const [body, setBody] = useState("./avatar-prototype/Body/Hoodie.png");
+  const [head, setHead] = useState(process.env.PUBLIC_URL + "/Head/Bob.png");
+  const [face, setFace] = useState(process.env.PUBLIC_URL + "/Face/MM.png");
+  const [body, setBody] = useState(process.env.PUBLIC_URL + "/Body/Hoodie.png");
 
   const sections = [
     {
       name: "Head",
       content: [
-        "./avatar-prototype/Head/Baldo.png",
-        "./avatar-prototype/Head/Bob.png",
-        "./avatar-prototype/Head/Kritink.png",
+        process.env.PUBLIC_URL + "/Head/Baldo.png",
+        process.env.PUBLIC_URL + "/Head/Bob.png",
+        process.env.PUBLIC_URL + "/Head/Kritink.png",
       ],
     },
     {
       name: "Face",
       content: [
-        "./avatar-prototype/Face/MM.png",
-        "./avatar-prototype/Face/O.png",
-        "./avatar-prototype/Face/Ohno.png",
+        process.env.PUBLIC_URL + "/Face/MM.png",
+        process.env.PUBLIC_URL + "/Face/O.png",
+        process.env.PUBLIC_URL + "/Face/Ohno.png",
       ],
     },
     {
       name: "Body",
       content: [
-        "./avatar-prototype/Body/Dilan.png",
-        "./avatar-prototype/Body/Hoodie.png",
-        "./avatar-prototype/Body/Shirt.png",
+        process.env.PUBLIC_URL + "/Body/Dilan.png",
+        process.env.PUBLIC_URL + "/Body/Hoodie.png",
+        process.env.PUBLIC_URL + "/Body/Shirt.png",
       ],
     },
   ];
@@ -64,7 +64,7 @@ function App() {
       <div className="absolute top-20 text-md font-semibold flex flex-row items-center justify-center text-[#E3BEC6] border-2 bg-[#1572A1] px-3 py-1 rounded-lg">
         Art by
         <img
-          src="./avatar-prototype/reyner.gif"
+          src={process.env.PUBLIC_URL + "/reyner.gif"}
           alt="reyner"
           className="h-7 ml-2"
         />
@@ -97,7 +97,7 @@ function App() {
         </div>
         <div className="relative w-[450px] flex flex-col justify-center items-center">
           <img
-            src="./avatar-prototype/Background/Putih.png"
+            src={process.env.PUBLIC_URL + "/Background/Putih.png"}
             alt="background"
             className="h-full w-[450px] object-cover absolute z-0"
           />

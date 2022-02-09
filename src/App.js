@@ -101,9 +101,9 @@ function App() {
             alt="background"
             className="h-full w-[450px] object-cover absolute z-0"
           />
-          <img src={body} alt="head" className="absolute z-10" />
+          <img src={body} alt="body" className="absolute z-10" />
           <img src={head} alt="head" className="absolute z-20" />
-          <img src={face} alt="head" className="absolute z-30" />
+          <img src={face} alt="face" className="absolute z-30" />
         </div>
       </div>
         <h1 className="absolute bottom-7 text-sm font-bold text-[#1572A1]">

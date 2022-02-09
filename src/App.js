@@ -1,8 +1,11 @@
-import { useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import "./App.css";
 import useDeviceDetect from "./useDeviceDetect";
+import { toPng } from "html-to-image";
 
 function App() {
+  const ref = useRef(null);
+
   const { isMobile } = useDeviceDetect();
   const [head, setHead] = useState(process.env.PUBLIC_URL + "/Head/Bob.png");
   const [face, setFace] = useState(process.env.PUBLIC_URL + "/Face/Mm.png");
@@ -35,6 +38,27 @@ function App() {
     },
   ];
 
+  const saveAs = useCallback(() => {
+    if (ref.current === null) {
+      return;
+    }
+
+    toPng(ref.current, {
+      cacheBust: true,
+      canvasWidth: 1024,
+      canvasHeight: 1024,
+    })
+      .then((dataUrl) => {
+        const link = document.createElement("a");
+        link.download = "avatar.png";
+        link.href = dataUrl;
+        link.click();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [ref]);
+
   const selectContent = (name, content) => {
     switch (name) {
       case "Head":
@@ -50,6 +74,7 @@ function App() {
         break;
     }
   };
+
   return isMobile ? (
     <div className="h-screen w-full flex flex-col justify-center items-center bg-red-100">
       <h1 className="text-xl font-bold text-[#1572A1]">
@@ -68,6 +93,18 @@ function App() {
           alt="reyner"
           className="h-7 ml-2"
         />
+      </div>
+
+      <div className="absolute right-20 flex flex-col">
+        <h1>
+          Like it? <span className="font-bold">Save it!</span>
+        </h1>
+        <button
+          className="border p-2 text-sm mt-2 text-[#E3BEC6] bg-[#1572A1] hover:text-[#FFF] hover:shadow-lg"
+          onClick={saveAs}
+        >
+          Click to save!
+        </button>
       </div>
 
       <div className="h-[500px] w-[800px] border-4 border-[#1572A1] rounded-md flex bg-[#E3BEC6] mt-16">
@@ -95,7 +132,10 @@ function App() {
             </div>
           ))}
         </div>
-        <div className="relative w-[450px] flex flex-col justify-center items-center">
+        <div
+          ref={ref}
+          className="relative w-[450px] flex flex-col justify-center items-center"
+        >
           <img
             src={process.env.PUBLIC_URL + "/Background/Putih.png"}
             alt="background"
@@ -106,9 +146,9 @@ function App() {
           <img src={face} alt="face" className="absolute z-30" />
         </div>
       </div>
-        <h1 className="absolute bottom-7 text-sm font-bold text-[#1572A1]">
+      <h1 className="absolute bottom-7 text-sm font-bold text-[#1572A1]">
         ©Sudiddo, February 2022
-        </h1>
+      </h1>
     </div>
   );
 }

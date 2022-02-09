@@ -106,6 +106,9 @@ function App() {
           <img src={face} alt="head" className="absolute z-30" />
         </div>
       </div>
+        <h1 className="absolute bottom-7 text-sm font-bold text-[#1572A1]">
+        ©Sudiddo, February 2022
+        </h1>
     </div>
   );
 }

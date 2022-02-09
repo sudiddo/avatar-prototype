@@ -5,7 +5,7 @@ import useDeviceDetect from "./useDeviceDetect";
 function App() {
   const { isMobile } = useDeviceDetect();
   const [head, setHead] = useState(process.env.PUBLIC_URL + "/Head/Bob.png");
-  const [face, setFace] = useState(process.env.PUBLIC_URL + "/Face/MM.png");
+  const [face, setFace] = useState(process.env.PUBLIC_URL + "/Face/Mm.png");
   const [body, setBody] = useState(process.env.PUBLIC_URL + "/Body/Hoodie.png");
 
   const sections = [

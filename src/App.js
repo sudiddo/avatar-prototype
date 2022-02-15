@@ -1,44 +1,73 @@
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import "./App.css";
 import useDeviceDetect from "./useDeviceDetect";
 import { toPng } from "html-to-image";
+import ImageCanvas from "./UI/atoms/canvas/ImageCanvas";
+import ImageOption from "./UI/atoms/cards/ImageOption";
+import { sections, gifSections } from "./data";
+import { Switch } from "@headlessui/react";
+import GIFCanvas from "./UI/atoms/canvas/GIFCanvas";
 
 function App() {
   const ref = useRef(null);
 
   const { isMobile } = useDeviceDetect();
-  const [head, setHead] = useState(process.env.PUBLIC_URL + "/Head/Bob.png");
-  const [face, setFace] = useState(process.env.PUBLIC_URL + "/Face/Mm.png");
-  const [body, setBody] = useState(process.env.PUBLIC_URL + "/Body/Hoodie.png");
+  const [isGif, setIsGif] = useState(false);
+  const [content, setContent] = useState(sections);
 
-  const sections = [
-    {
-      name: "Head",
-      content: [
-        process.env.PUBLIC_URL + "/Head/Baldo.png",
-        process.env.PUBLIC_URL + "/Head/Bob.png",
-        process.env.PUBLIC_URL + "/Head/Kritink.png",
-      ],
-    },
-    {
-      name: "Face",
-      content: [
-        process.env.PUBLIC_URL + "/Face/Mm.png",
-        process.env.PUBLIC_URL + "/Face/O.png",
-        process.env.PUBLIC_URL + "/Face/Ohno.png",
-      ],
-    },
-    {
-      name: "Body",
-      content: [
-        process.env.PUBLIC_URL + "/Body/Dilan.png",
-        process.env.PUBLIC_URL + "/Body/Hoodie.png",
-        process.env.PUBLIC_URL + "/Body/Shirt.png",
-      ],
-    },
-  ];
+  const [background, setBackground] = useState(
+    sections.find((item) => item.name === "Background").content[0]
+  );
+  const [head, setHead] = useState(
+    sections.find((item) => item.name === "Head").content[0]
+  );
+  const [face, setFace] = useState(
+    sections.find((item) => item.name === "Face").content[0]
+  );
+  const [body, setBody] = useState(
+    sections.find((item) => item.name === "Body").content[0]
+  );
+  const [eyes, setEyes] = useState(
+    gifSections.find((item) => item.name === "Eyes").content[0]
+  );
+  const [limbs, setLimbs] = useState(
+    gifSections.find((item) => item.name === "Limbs").content[0]
+  );
+
+  useEffect(() => {
+    const reloadGif = () => {
+      setBackground("");
+      setHead("");
+      setBody("");
+      setEyes("");
+      setLimbs("");
+      setTimeout(() => {
+        setEyes(gifSections.find((item) => item.name === "Eyes").content[0]);
+        setBackground(
+          gifSections.find((item) => item.name === "Background").content[0]
+        );
+        setHead(gifSections.find((item) => item.name === "Head").content[0]);
+        setBody(gifSections.find((item) => item.name === "Body").content[0]);
+        setLimbs(gifSections.find((item) => item.name === "Limbs").content[0]);
+      }, 0);
+    };
+
+    if (isGif) {
+      setContent(gifSections);
+      reloadGif();
+    } else {
+      setContent(sections);
+      setBackground(
+        sections.find((item) => item.name === "Background").content[0]
+      );
+      setHead(sections.find((item) => item.name === "Head").content[0]);
+      setFace(sections.find((item) => item.name === "Face").content[0]);
+      setBody(sections.find((item) => item.name === "Body").content[0]);
+    }
+  }, [isGif]);
 
   const saveAs = useCallback(() => {
+    console.log("ref", ref.current);
     if (ref.current === null) {
       return;
     }
@@ -61,6 +90,9 @@ function App() {
 
   const selectContent = (name, content) => {
     switch (name) {
+      case "Background":
+        setBackground(content);
+        break;
       case "Head":
         setHead(content);
         break;
@@ -69,6 +101,12 @@ function App() {
         break;
       case "Body":
         setBody(content);
+        break;
+      case "Limbs":
+        setLimbs(content);
+        break;
+      case "Eyes":
+        setEyes(content);
         break;
       default:
         break;
@@ -95,56 +133,87 @@ function App() {
         />
       </div>
 
-      <div className="absolute right-20 flex flex-col">
-        <h1>
-          Like it? <span className="font-bold">Save it!</span>
-        </h1>
-        <button
-          className="border p-2 text-sm mt-2 text-[#E3BEC6] bg-[#1572A1] hover:text-[#FFF] hover:shadow-lg"
-          onClick={saveAs}
+      {!isGif && (
+        <div className="absolute right-20 flex flex-col">
+          <h1>
+            Like it? <span className="font-bold">Save it!</span>
+          </h1>
+          <button
+            className="border p-2 text-sm mt-2 text-[#E3BEC6] bg-[#1572A1] hover:text-[#FFF] hover:shadow-lg"
+            onClick={saveAs}
+          >
+            Click to save!
+          </button>
+        </div>
+      )}
+
+      <div className="absolute left-20 flex flex-row items-center">
+        <h1>Image</h1>
+        <Switch
+          checked={isGif}
+          onChange={setIsGif}
+          className={`${isGif ? "bg-teal-900" : "bg-teal-700"}
+          mx-4
+          relative inline-flex flex-shrink-0 h-[38px] w-[74px] border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
         >
-          Click to save!
-        </button>
+          <span className="sr-only">GIF?</span>
+          <span
+            aria-hidden="true"
+            className={`${isGif ? "translate-x-9" : "translate-x-0"}
+            pointer-events-none inline-block h-[34px] w-[34px] rounded-full bg-white shadow-lg transform ring-0 transition ease-in-out duration-200`}
+          />
+        </Switch>
+        <h1>GIF</h1>
       </div>
 
       <div className="h-[500px] w-[800px] border-4 border-[#1572A1] rounded-md flex bg-[#E3BEC6] mt-16">
         <div className="flex flex-col w-[350px] no-scrollbar overflow-scroll pt-5 border-r-4 border-[#1572A1]">
-          {sections.map((section, index) => (
+          {content.map((item, index) => (
             <div key={index}>
               <h2 className="ml-5 mb-5 text-[#1572A1] font-semibold text-lg">
-                {section.name}
+                {item.name}
               </h2>
-              <div className="no-scrollbar flex flex-row overflow-x-auto snap-x snap-mandatory pl-5 ">
-                {section.content.map((item, index) => (
-                  <img
-                    className={`snap-center h-32 w-32 object-contain mr-2 mb-5 border-4 rounded-md bg-white ${
-                      head === item || body === item || face === item
-                        ? "border-red-500"
-                        : "border-black"
-                    } cursor-pointer`}
-                    onClick={() => selectContent(section.name, item)}
-                    src={item}
-                    alt={index}
+              <div className="no-scrollbar flex flex-row overflow-x-scroll pl-5 ">
+                {item.content.map((image, index) => (
+                  <ImageOption
                     key={index}
+                    head={head}
+                    body={body}
+                    limbs={limbs}
+                    eyes={eyes}
+                    face={face}
+                    background={background}
+                    item={image}
+                    selectContent={(name, content) =>
+                      selectContent(name, content)
+                    }
+                    name={item.name}
+                    index={index}
                   />
                 ))}
               </div>
             </div>
           ))}
         </div>
-        <div
-          ref={ref}
-          className="relative w-[450px] flex flex-col justify-center items-center"
-        >
-          <img
-            src={process.env.PUBLIC_URL + "/Background/Putih.png"}
-            alt="background"
-            className="h-full w-[450px] object-cover absolute z-0"
+        {isGif ? (
+          <GIFCanvas
+            ref={ref}
+            background={background}
+            body={body}
+            head={head}
+            face={face}
+            eyes={eyes}
+            limbs={limbs}
           />
-          <img src={body} alt="body" className="absolute z-10" />
-          <img src={head} alt="head" className="absolute z-20" />
-          <img src={face} alt="face" className="absolute z-30" />
-        </div>
+        ) : (
+          <ImageCanvas
+            ref={ref}
+            background={background}
+            body={body}
+            head={head}
+            face={face}
+          />
+        )}
       </div>
       <h1 className="absolute bottom-7 text-sm font-bold text-[#1572A1]">
         ©Sudiddo, February 2022
